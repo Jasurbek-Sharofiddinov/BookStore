@@ -18,7 +18,7 @@ class Category(models.Model):
 class Book(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, blank=True)
-    picture = models.ImageField()
+    picture = models.ImageField(upload_to='Pictures',default='media/Pictures/default.jpg')
     description = models.TextField()
     author = models.CharField(max_length=200)
     publish_data = models.DateField()
@@ -46,19 +46,5 @@ class User(models.Model):
     address = models.CharField(max_length=200)
     book_numbers = models.IntegerField()
 
-
-class Order(models.Model):
-    pending = 'P'
-    complete = 'C'
-    Ordering_status = [
-        (pending, 'Pending'),
-        (complete, 'Complete')
-    ]
-    ordering = models.CharField(max_length=1, choices=Ordering_status)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Book, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField()
+    def __str__(self):
+        return self.name
